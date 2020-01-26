@@ -1,5 +1,4 @@
 import requests
-from colorama import Fore, Back, Style
 url = "https://api.byte.co/account/register/precheck"
 afile = "available.txt"
 cfile = "usernames.txt"
