@@ -1,5 +1,5 @@
 import requests
-
+from colorama import Fore, Back, Style
 url = "https://api.byte.co/account/register/precheck"
 afile = "available.txt"
 cfile = "usernames.txt"
@@ -13,8 +13,31 @@ def count():
 
 
     return namecount
-    
-def check()
+
+def check():
+    with open(cfile, "r+") as fp:
+        line = fp.readline()
+        checked = 0
+        f= open(afile,"a+")
+        f.write(f"------Session Started-------\n")
+        while line:
+            name = line.strip()
+            data = {"username":name}
+            r = requests.post(url, json=data)
+            status = r.json()
+            if status["success"] == 0:
+                print(f"{name} [*]")
+            if status["success"] == 1:
+                print(f"{name} Available")
+                f.write(f"{name}\n")
+
+            line = fp.readline()
+            if not line.strip():
+                print("")
+                print("Finished Checking ALL USERNAMES")
+                f.write(f"------Session Ended-------\n")
+                f.close()
+                quit()
 
 
 def initialize():
@@ -25,16 +48,11 @@ def initialize():
     print("Press ENTER KEY to begin checking")
     input("")
     check()
-data = {"username":"cs"}
 
-r = requests.post(url, json=data)
 
-status = r.json()
-if status["success"] == 0:
-    print("taken")
-if status["success"] == 1:
-    print("availablen")
-print(r.text)
+
+
+
 
 
 if __name__ == "__main__":
